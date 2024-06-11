@@ -1,203 +1,126 @@
-# Chicken-Disease-Classification--Project
+# Coccidiosis Classification Project
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.8-blue.svg)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
 
-## Workflows
+Welcome to the **Coccidiosis Classification Project**. This project aims to classify chicken diseases, specifically coccidiosis, using machine learning techniques. 
 
-1. Update config.yaml
-2. Update secrets.yaml [Optional]
-3. Update params.yaml
-4. Update the entity
-5. Update the configuration manager in src config
-6. Update the components
-7. Update the pipeline 
-8. Update the main.py
-9. Update the dvc.yaml
+![Coccidiosis Classification](path_to_your_image.jpg) <!-- Add a relevant image -->
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Usage](#usage)
+- [DVC Workflow](#dvc-workflow)
+- [MLflow Tracking](#mlflow-tracking)
+- [Deployment](#deployment)
+  - [AWS CI/CD Deployment](#aws-cicd-deployment)
+  - [Azure CI/CD Deployment](#azure-cicd-deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-# How to run?
-### STEPS:
+## Introduction
 
-Clone the repository
+This project leverages convolutional neural networks (CNNs) for the classification of coccidiosis in chickens. It involves data preprocessing, model training, and deployment using various tools and frameworks like DVC, MLflow, Docker, and cloud platforms.
 
-```bash
-https://github.com/entbappy/Chicken-Disease-Classification--Project
-```
-### STEP 01- Create a conda environment after opening the repository
+## Installation
 
-```bash
+To get started, clone the repository and set up the conda environment:
+
+```sh
+git clone https://github.com/saran-nair/Coccidiosis-Classification--Project
+cd Coccidiosis-Classification--Project
 conda create -n cnncls python=3.8 -y
-```
-
-```bash
 conda activate cnncls
-```
-
-
-### STEP 02- install the requirements
-```bash
 pip install -r requirements.txt
-```
 
+## Usage
 
-```bash
-# Finally run the following command
+Run the main application:
+```sh
 python app.py
-```
 
-Now,
-```bash
-open up you local host and port
-```
+Access the local host and port to interact with the application.
 
+## DVC Workflow
 
-### DVC cmd
+Initialize and run DVC commands:
+```sh
+dvc init
+dvc repro
+dvc dag
 
-1. dvc init
-2. dvc repro
-3. dvc dag
+## MLflow Tracking
 
+```sh
+mlflow UI
 
-## MLflow
+## DAGsHub Integration
 
-[Documentation](https://mlflow.org/docs/latest/index.html)
-
-
-##### cmd
-- mlflow ui
-
-### dagshub
-[dagshub](https://dagshub.com/)
-
-MLFLOW_TRACKING_URI=https://dagshub.com/entbappy/MLflow-DVC-Chicken-Disease-Classification.mlflow 
-MLFLOW_TRACKING_USERNAME=entbappy 
-MLFLOW_TRACKING_PASSWORD=6824692c47a369aa6f9eac5b10041d5c8edbcef0 
+```sh
+export MLFLOW_TRACKING_URI=https://dagshub.com/yourusername/Coccidiosis-Classification-Project.mlflow
+export MLFLOW_TRACKING_USERNAME=yourusername
+export MLFLOW_TRACKING_PASSWORD=yourpassword
 python script.py
 
-Run this to export as env variables:
+## Deployment
 
-```bash
+### AWS CI/CD Deployment
 
-export MLFLOW_TRACKING_URI=https://dagshub.com/entbappy/MLflow-DVC-Chicken-Disease-Classification.mlflow
+Login to AWS console and create an IAM user with EC2 and ECR access.
 
-export MLFLOW_TRACKING_USERNAME=entbappy 
+Build and push Docker image:
 
-export MLFLOW_TRACKING_PASSWORD=6824692c47a369aa6f9eac5b10041d5c8edbcef0 
+```sh
+docker build -t 566373416292.dkr.ecr.us-east-1.amazonaws.com/coccidiosis .
+docker push 566373416292.dkr.ecr.us-east-1.amazonaws.com/coccidiosis
 
-```
+Launch EC2 instance and install Docker:
 
+```sh
+sudo apt-get update -y
+sudo apt-get install -y docker.io
+sudo usermod -aG docker $USER
+newgrp docker
 
-# AWS-CICD-Deployment-with-Github-Actions
+Configure EC2 as a self-hosted runner:
 
-## 1. Login to AWS console.
+Follow the steps in GitHub settings to add the runner.
 
-## 2. Create IAM user for deployment
+Setup GitHub secrets:
 
-	#with specific access
+```sh
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_REGION=us-east-1
+AWS_ECR_LOGIN_URI=566373416292.dkr.ecr.us-east-1.amazonaws.com
+ECR_REPOSITORY_NAME=coccidiosis
 
-	1. EC2 access : It is virtual machine
+### Azure CI/CD Deployment
 
-	2. ECR: Elastic Container registry to save your docker image in aws
+Build and push Docker image:
 
+```sh
+docker build -t yourregistry.azurecr.io/coccidiosis:latest .
+docker login yourregistry.azurecr.io
+docker push yourregistry.azurecr.io/coccidiosis:latest
 
-	#Description: About the deployment
+Deploy to Azure:
 
-	1. Build docker image of the source code
+Launch the Web App Server.
+Pull the Docker image and run it on the server.
+About MLflow & DVC
+MLflow:
 
-	2. Push your docker image to ECR
+A robust platform for tracking experiments.
+Provides logging and tagging of models.
+DVC:
 
-	3. Launch Your EC2 
+Lightweight experiment tracker.
+Suitable for pipeline orchestration.
+Contributing
+Contributions are welcome! Please fork the repository and create a pull request.
 
-	4. Pull Your image from ECR in EC2
-
-	5. Lauch your docker image in EC2
-
-	#Policy:
-
-	1. AmazonEC2ContainerRegistryFullAccess
-
-	2. AmazonEC2FullAccess
-
-	
-## 3. Create ECR repo to store/save docker image
-    - Save the URI: 566373416292.dkr.ecr.us-east-1.amazonaws.com/chicken
-
-	
-## 4. Create EC2 machine (Ubuntu) 
-
-## 5. Open EC2 and Install docker in EC2 Machine:
-	
-	
-	#optinal
-
-	sudo apt-get update -y
-
-	sudo apt-get upgrade
-	
-	#required
-
-	curl -fsSL https://get.docker.com -o get-docker.sh
-
-	sudo sh get-docker.sh
-
-	sudo usermod -aG docker ubuntu
-
-	newgrp docker
-	
-# 6. Configure EC2 as self-hosted runner:
-    setting>actions>runner>new self hosted runner> choose os> then run command one by one
-
-
-# 7. Setup github secrets:
-
-    AWS_ACCESS_KEY_ID=
-
-    AWS_SECRET_ACCESS_KEY=
-
-    AWS_REGION = us-east-1
-
-    AWS_ECR_LOGIN_URI = demo>>  566373416292.dkr.ecr.ap-south-1.amazonaws.com
-
-    ECR_REPOSITORY_NAME = simple-app
-
-
-
-
-# AZURE-CICD-Deployment-with-Github-Actions
-
-## Save pass:
-
-s3cEZKH5yytiVnJ3h+eI3qhhzf9q1vNwEi6+q+WGdd+ACRCZ7JD6
-
-
-## Run from terminal:
-
-docker build -t chickenapp.azurecr.io/chicken:latest .
-
-docker login chickenapp.azurecr.io
-
-docker push chickenapp.azurecr.io/chicken:latest
-
-
-## Deployment Steps:
-
-1. Build the Docker image of the Source Code
-2. Push the Docker image to Container Registry
-3. Launch the Web App Server in Azure 
-4. Pull the Docker image from the container registry to Web App server and run 
-
-
-
-## About MLflow & DVC
-
-MLflow
-
- - Its Production Grade
- - Trace all of your expriements
- - Logging & taging your model
-
-
-DVC 
-
- - Its very lite weight for POC only
- - lite weight expriements tracker
- - It can perform Orchestration (Creating Pipelines)
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
