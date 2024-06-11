@@ -7,7 +7,7 @@
 
 Welcome to the **Coccidiosis Classification Project**. This project aims to classify chicken diseases, specifically coccidiosis, using machine learning techniques.
 
-![Coccidiosis Classification](coccidiosis_classification.jpg)
+![Coccidiosis Classification](coccidiosis_classification.png)
 
 ## Table of Contents
 - [Introduction](#introduction)
